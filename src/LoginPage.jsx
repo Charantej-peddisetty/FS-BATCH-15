@@ -21,7 +21,7 @@ const LoginPage = ({ handleLogin }) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(-45deg, #ff6f61, #ffb88c, #6a11cb, #2575fc)",
+        background: "linear-gradient(-45deg, #ff6f61, #ffb88c, #6a11cb, #2575fc, #01ff8dff, #be4900ff, #ff00aeff, #213b68ff))",
         backgroundSize: "400% 400%",
         animation: "pageGradient 12s ease infinite",
         position: "relative",
