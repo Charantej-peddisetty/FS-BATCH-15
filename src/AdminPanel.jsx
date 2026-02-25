@@ -1,149 +1,163 @@
-// src/AdminPanel.jsx
-import React from "react";
+import React, { useState } from "react";
+import Cse from "./Cse";
 
-const AdminPanel = () => {
-  const buttonStyle = {
-    padding: "0.8rem 1.5rem",
-    fontSize: "0.95rem",
-    fontWeight: "600",
-    borderRadius: "10px",
-    border: "none",
-    cursor: "pointer",
-    backgroundColor: "#4e73df",
-    color: "white",
-    transition: "all 0.3s",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+const LoginPage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [adminId, setAdminId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  // 🔐 Admin credentials
+  const admins = [
+    { id: "admin1", password: "123456" },
+    { id: "admin2", password: "123456" },
+  ];
+
+  const handleLogin = () => {
+    const valid = admins.find(
+      (a) => a.id === adminId && a.password === password
+    );
+
+    if (valid) {
+      setIsLoggedIn(true); // show lessons after login
+    } else {
+      setError("Invalid Admin ID or Password");
+    }
   };
 
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        padding: "2rem",
-        display: "flex",
-        flexDirection: "column",
-        background: "linear-gradient(-45deg, #ff6f61, #ffb88c, #6a11cb, #2575fc)",
-        backgroundSize: "400% 400%",
-        animation: "pageGradient 12s ease infinite",
-      }}
-    >
-      {/* Gradient Animation Keyframes */}
-      <style>
-        {`
-          @keyframes pageGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          button:hover {
-            transform: translateY(-3px);
-            background-color: #2c3e50 !important;
-          }
-        `}
-      </style>
+  // ================= LOGIN SCREEN =================
+  if (!isLoggedIn) {
+    return (
+      <div style={styles.wrapper}>
+        <div style={styles.card}>
+          <h2>🔐 Admin Login</h2>
 
-      {/* Header */}
-      <header
-        style={{
-          textAlign: "center",
-          color: "white",
-          textShadow: "2px 2px 8px rgba(0,0,0,0.3)",
-          marginBottom: "2rem",
-        }}
-      >
-        <h1 style={{ fontSize: "2.5rem", fontWeight: "800" }}>ADMIN PANEL</h1>
-        <p style={{ fontSize: "1.1rem", opacity: 0.9 }}>
-          Manage lessons, projects, resources, and users efficiently
-        </p>
-      </header>
+          <input
+            placeholder="Admin ID"
+            value={adminId}
+            onChange={(e) => setAdminId(e.target.value)}
+            style={styles.input}
+          />
 
-      {/* Buttons Section */}
-      <div
-        style={{
-          background: "rgba(255,255,255,0.9)",
-          borderRadius: "15px",
-          padding: "2rem",
-          boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
-          marginBottom: "2rem",
-        }}
-      >
-        <h2 style={{ marginBottom: "1rem", color: "#2C3E50" }}>Quick Actions</h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-            gap: "1rem",
-          }}
-        >
-          <button style={buttonStyle}>Add Lesson</button>
-          <button style={buttonStyle}>Update Lesson</button>
-          <button style={buttonStyle}>Delete Lesson</button>
-          <button style={buttonStyle}>Add Project</button>
-          <button style={buttonStyle}>Update Project</button>
-          <button style={buttonStyle}>Delete Project</button>
-          <button style={buttonStyle}>Manage Resources</button>
-          <button style={buttonStyle}>Add Resource</button>
-          <button style={buttonStyle}>Delete Resource</button>
-          <button style={buttonStyle}>Track Users</button>
-          <button style={buttonStyle}>Reports</button>
-          <button style={buttonStyle}>Export Data</button>
-          <button style={buttonStyle}>Import Data</button>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+          />
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
+          <button style={styles.loginBtn} onClick={handleLogin}>
+            Login
+          </button>
         </div>
       </div>
+    );
+  }
 
-      {/* Recent Activities */}
-      <div
-        style={{
-          background: "rgba(255,255,255,0.95)",
-          borderRadius: "15px",
-          padding: "1.5rem",
-          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-          marginBottom: "2rem",
-        }}
-      >
-        <h3 style={{ color: "#2C3E50", marginBottom: "1rem" }}>
-          Recent Activities
-        </h3>
-        <ul style={{ lineHeight: "1.8", color: "#2C3E50" }}>
-          <li>User John started "Portfolio Website" project</li>
-          <li>Lesson "React Hooks" updated</li>
-          <li>New resource "API Integration Guide" added</li>
-          <li>User Sarah completed "Sustainable Tracker" project</li>
-        </ul>
+  // ================= LESSONS SCREEN =================
+  return (
+    <div style={{ padding: "2rem", background: "#f5f9ff", minHeight: "100vh" }}>
+      <h1 style={{ textAlign: "center", color: "#1565c0" }}>
+        📘 Lessons
+      </h1>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem", marginTop: "2rem" }}>
+        {Cse.lessons.map((lesson) => (
+          <div
+            key={lesson.id}
+            style={{
+              display: "flex",
+              gap: "1rem",
+              padding: "1rem",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg,#1976d2,#42a5f5)",
+              color: "white",
+              boxShadow: "0 6px 15px rgba(0,0,0,0.15)",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={lesson.image}
+              alt={lesson.title}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                objectFit: "cover",
+                border: "3px solid white",
+              }}
+            />
+            <div>
+              <h2 style={{ margin: 0 }}>{lesson.title}</h2>
+              <p style={{ marginTop: "0.4rem" }}>{lesson.content}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Statistics Overview */}
-      <div
-        style={{
-          background: "rgba(255,255,255,0.95)",
-          borderRadius: "15px",
-          padding: "1.5rem",
-          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h3 style={{ color: "#2C3E50", marginBottom: "1rem" }}>
-          Statistics Overview
-        </h3>
-        <p>Total Lessons: <strong>15</strong></p>
-        <p>Total Projects: <strong>4</strong></p>
-        <p>Active Users: <strong>120</strong></p>
-        <p>Completed Projects: <strong>45</strong></p>
-      </div>
+      {/* PROJECTS */}
+      <h1 style={{ textAlign: "center", marginTop: "3rem", color: "#0d47a1" }}>
+        🚀 Projects
+      </h1>
 
-      {/* Footer */}
-      <footer
-        style={{
-          textAlign: "center",
-          marginTop: "auto",
-          padding: "1rem",
-          color: "white",
-          textShadow: "1px 1px 5px rgba(0,0,0,0.3)",
-        }}
-      >
-        <p>© 2025 KL University - Admin Dashboard</p>
-      </footer>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
+        {Cse.projects.map((project) => (
+          <div
+            key={project.id}
+            style={{
+              padding: "1rem",
+              borderRadius: "10px",
+              background: "linear-gradient(135deg,#0d47a1,#1976d2)",
+              color: "white",
+              boxShadow: "0 5px 12px rgba(0,0,0,0.15)",
+            }}
+          >
+            <h2 style={{ margin: 0 }}>{project.title}</h2>
+            <p style={{ marginTop: "0.5rem" }}>{project.content}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default AdminPanel;
+// 🎨 Styles
+const styles = {
+  wrapper: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(135deg,#6a11cb,#2575fc)",
+  },
+  card: {
+    background: "white",
+    padding: "2rem",
+    borderRadius: 12,
+    width: 320,
+    textAlign: "center",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+  },
+  input: {
+    width: "100%",
+    padding: "0.6rem",
+    marginBottom: "0.7rem",
+    borderRadius: 6,
+    border: "1px solid #ccc",
+  },
+  loginBtn: {
+    width: "100%",
+    padding: "0.6rem",
+    background: "#4e73df",
+    color: "white",
+    border: "none",
+    borderRadius: 6,
+    cursor: "pointer",
+    fontWeight: 600,
+  },
+};
+
+export default LoginPage;

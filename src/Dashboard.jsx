@@ -1,86 +1,127 @@
-// src/Dashboard.jsx
-import React from "react";
+import React, { useState } from "react";
 
 const Dashboard = ({ setCurrentView, userRole }) => {
-  const cardStyle = {
-    flex: "1 1 200px",
-    padding: "2rem",
-    borderRadius: "12px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: "1.2rem",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-    transition: "transform 0.2s, box-shadow 0.2s",
-  };
-
-  const cardHover = {
-    transform: "scale(1.05)",
-    boxShadow: "0 8px 16px rgba(0,0,0,0.3)",
-  };
-
-  const [hoveredCard, setHoveredCard] = React.useState(null);
+  const [hovered, setHovered] = useState(null);
 
   const cards = [
-    { id: "lessons", title: "Lessons", role: "user" },
-    { id: "projects", title: "Projects", role: "user" },
-    { id: "progress", title: "Progress", role: "user" },
-    { id: "resources", title: "Resources", role: "user" },
-    { id: "admin", title: "Admin Panel", role: "admin" },
+    { id: "lessons", title: "Lessons", icon: "📘", color: "#4CAF50", role: "user" },
+    { id: "projects", title: "Projects", icon: "🚀", color: "#2196F3", role: "user" },
+    { id: "progress", title: "Progress", icon: "📊", color: "#FF9800", role: "user" },
+    { id: "resources", title: "Resources", icon: "📁", color: "#9C27B0", role: "user" },
+    { id: "admin", title: "Admin Panel", icon: "🛠", color: "#E91E63", role: "admin" },
   ];
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ color: "#2E7D32", marginBottom: "1rem" }}>Dashboard</h2>
-      <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
-        Welcome! Select a section below to continue:
-      </p>
-      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+    <div style={styles.wrapper}>
+      {/* HEADER */}
+      <div style={styles.header}>
+        <h2>🎓 Dashboard</h2>
+        <p>Welcome! Choose your section</p>
+      </div>
+
+      {/* VERTICAL RECTANGLE CARDS */}
+      <div style={styles.verticalStack}>
         {cards
           .filter((c) => c.role === userRole || c.role === "user")
           .map((c) => (
             <div
               key={c.id}
               style={{
-                ...cardStyle,
-                ...(hoveredCard === c.id ? cardHover : {}),
+                ...styles.rectCard,
+                background: `linear-gradient(135deg, ${c.color}, #ffffff22)`,
+                ...(hovered === c.id ? styles.rectHover : {}),
               }}
               onClick={() => setCurrentView(c.id)}
-              onMouseEnter={() => setHoveredCard(c.id)}
-              onMouseLeave={() => setHoveredCard(null)}
+              onMouseEnter={() => setHovered(c.id)}
+              onMouseLeave={() => setHovered(null)}
             >
-              {c.title}
+              <div style={styles.icon}>{c.icon}</div>
+              <div>
+                <h3 style={{ margin: 0 }}>{c.title}</h3>
+                <p style={styles.subtitle}>Click to open</p>
+              </div>
             </div>
           ))}
       </div>
 
-      {userRole === "user" && (
-        <div style={{ marginTop: "3rem" }}>
-          <h3 style={{ color: "#2E7D32" }}>Quick Tips:</h3>
-          <ul style={{ lineHeight: "1.8" }}>
-            <li>Start with lessons to strengthen your fundamentals.</li>
-            <li>Track your progress to see improvement over time.</li>
-            <li>Work on projects to apply your knowledge practically.</li>
-            <li>Explore resources for additional learning materials.</li>
-          </ul>
-        </div>
-      )}
-
-      {userRole === "admin" && (
-        <div style={{ marginTop: "3rem" }}>
-          <h3 style={{ color: "#2E7D32" }}>Admin Guidance:</h3>
-          <ul style={{ lineHeight: "1.8" }}>
-            <li>Manage lessons, projects, and resources efficiently.</li>
-            <li>Track user activities and progress in real-time.</li>
-            <li>Generate reports and export data for analytics.</li>
-            <li>Ensure content is up-to-date and relevant.</li>
-          </ul>
-        </div>
-      )}
+      {/* INFO BOX */}
+      <div style={styles.infoBox}>
+        {userRole === "user" ? (
+          <>
+            <h3>💡 Student Tips</h3>
+            <ul>
+              <li>Start with lessons for fundamentals.</li>
+              <li>Practice using real projects.</li>
+              <li>Track progress regularly.</li>
+              <li>Use resources for deep learning.</li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <h3>🛠 Admin Guide</h3>
+            <ul>
+              <li>Manage lessons and resources.</li>
+              <li>Track student progress.</li>
+              <li>Generate reports.</li>
+              <li>Keep content updated.</li>
+            </ul>
+          </>
+        )}
+      </div>
     </div>
   );
+};
+
+// 🎨 STYLES
+const styles = {
+  wrapper: {
+    padding: "2rem",
+    minHeight: "100vh",
+    background: "#f4f6fb",
+    fontFamily: "Segoe UI",
+  },
+  header: {
+    background: "linear-gradient(135deg,#6a11cb,#2575fc)",
+    color: "white",
+    padding: "1.5rem",
+    borderRadius: "12px",
+    marginBottom: "1.5rem",
+  },
+  verticalStack: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  },
+  rectCard: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    padding: "1.2rem 1.5rem",
+    borderRadius: "12px",
+    color: "white",
+    cursor: "pointer",
+    transition: "all 0.25s ease",
+    boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+  },
+  rectHover: {
+    transform: "translateX(6px) scale(1.02)",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+  },
+  icon: {
+    fontSize: "2rem",
+  },
+  subtitle: {
+    margin: 0,
+    fontSize: "0.9rem",
+    opacity: 0.85,
+  },
+  infoBox: {
+    marginTop: "2rem",
+    background: "white",
+    padding: "1.5rem",
+    borderRadius: "12px",
+    boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
+  },
 };
 
 export default Dashboard;

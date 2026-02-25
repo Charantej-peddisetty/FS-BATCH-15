@@ -1,17 +1,93 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+/* 🔥 FIXED BODY CENTERING */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #242424;
+}
+
+/* 🔥 ROOT APP CENTER FIX */
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* OPTIONAL CARD CENTERING */
+.center-card {
+  background: white;
+  color: black;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* HEADINGS */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* BUTTON STYLE */
 button {
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #4CAF50;
-  font-weight: bold;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #646cff;
+  color: white;
+  cursor: pointer;
   transition: 0.3s;
 }
 
 button:hover {
-  background-color: #e0e0e0;
+  background-color: #535bf2;
+}
+
+/* LIGHT MODE SUPPORT */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  body {
+    background-color: #f5f5f5;
+  }
+
+  button {
+    background-color: #646cff;
+    color: white;
+  }
 }

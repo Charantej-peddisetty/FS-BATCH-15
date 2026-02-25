@@ -1,52 +1,73 @@
-// src/LessonViewer.jsx
 import React from "react";
 import Cse from "./Cse";
 
 const LessonViewer = () => {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>Lessons</h1>
+      {/* LESSONS */}
+      <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
+        📚 Lessons
+      </h1>
+
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         {Cse.lessons.map((lesson) => (
           <div
             key={lesson.id}
             style={{
               display: "flex",
-              alignItems: "center",
               gap: "1rem",
               padding: "1rem",
-              border: "1px solid #4CAF50",
-              borderRadius: "10px",
-              backgroundColor: "#f0f8f5",
+              borderRadius: "12px",
+              background: "#f4fff7",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+              alignItems: "center",
             }}
           >
             <img
               src={lesson.image}
               alt={lesson.title}
-              style={{ width: "120px", height: "120px", borderRadius: "10px", objectFit: "cover" }}
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: 10,
+                objectFit: "cover",
+              }}
             />
+
             <div>
-              <h2 style={{ margin: 0, color: "#4CAF50" }}>{lesson.title}</h2>
-              <p style={{ marginTop: "0.5rem" }}>{lesson.content}</p>
+              <h2 style={{ margin: 0, color: "#2e7d32" }}>
+                {lesson.title}
+              </h2>
+              <p style={{ marginTop: "0.5rem", color: "#555" }}>
+                {lesson.content}
+              </p>
             </div>
           </div>
         ))}
       </div>
 
-      <h1 style={{ textAlign: "center", margin: "3rem 0 2rem 0" }}>Projects</h1>
+      {/* PROJECTS */}
+      <h1 style={{ textAlign: "center", margin: "3rem 0 2rem" }}>
+        🚀 Projects
+      </h1>
+
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {Cse.projects.map((project) => (
           <div
             key={project.id}
             style={{
               padding: "1rem",
-              border: "1px solid #2196F3",
-              borderRadius: "10px",
-              backgroundColor: "#f0f8ff",
+              borderRadius: "12px",
+              background: "#f4f8ff",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
             }}
           >
-            <h2 style={{ margin: 0, color: "#2196F3" }}>{project.title}</h2>
-            <p style={{ marginTop: "0.5rem" }}>{project.content}</p>
+            <h2 style={{ margin: 0, color: "#1976d2" }}>
+              {project.title}
+            </h2>
+            <p style={{ marginTop: "0.5rem", color: "#555" }}>
+              {project.content}
+            </p>
           </div>
         ))}
       </div>
